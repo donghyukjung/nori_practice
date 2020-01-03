@@ -88,6 +88,7 @@ add_executable(nori
   src/microfacet.cpp
   src/mirror.cpp
   src/dielectric.cpp
+  src/normals.cpp
 )
 
 add_definitions(${NANOGUI_EXTRA_DEFS})
@@ -101,6 +102,7 @@ add_executable(warptest
   src/object.cpp
   src/proplist.cpp
   src/common.cpp
+
 )
 
 target_link_libraries(nori tbb_static pugixml IlmImf nanogui ${NANOGUI_EXTRA_LIBS})
