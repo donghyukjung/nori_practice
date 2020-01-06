@@ -2,8 +2,8 @@
 #include <nori/mesh.h>
 #include <Eigen/Geometry>
 
-#define MAX_DEPTH 10
-#define MAX_TRIANGEL_NUM 10
+#define MAX_DEPTH 4
+#define MAX_TRIANGEL_NUM 30	
 
 NORI_NAMESPACE_BEGIN
 
@@ -18,6 +18,9 @@ public:
 		// build octree recursively
 		void build_octree(Mesh *mesh);
 		
+		// search octree recursively
+		void search(const Ray3f &ray, Mesh *mesh, float &t, int &idx,int dep);
+
 		// child nodes of octree
 		std::vector<Node*> *m_childs;
 
@@ -35,6 +38,7 @@ public:
 	Mesh *m_mesh = nullptr; // mesh pointer
 
 	void generate_octree(Mesh *mesh);
+	int search_octree(const Ray3f &ray) const;
 };
 
 NORI_NAMESPACE_END
