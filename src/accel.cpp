@@ -32,18 +32,20 @@ void Accel::build() {
 	m_octree = Octree();
 	std::cout << "Generating octree....." << endl;
 	m_octree.generate_octree(m_mesh);
-	std::cout << "Octree generating complete" << endl;
+	std::cout << "Octree generating complete" << "\n";
 }
 
 bool Accel::rayIntersect(const Ray3f &ray_, Intersection &its, bool shadowRay) const {
-	std::cout << "rayIntersect called" << endl;
+//	std::cout << "rayIntersect called\n" << "\n";
+
 	bool foundIntersection = false;  // Was an intersection found so far?
     uint32_t f = (uint32_t) -1;      // Triangle index of the closest intersection
 
     Ray3f ray(ray_); /// Make a copy of the ray (we will need to update its '.maxt' value)
 
 	int idx = m_octree.search_octree(ray);
-	
+//	std::cout << "idx : " << idx << "\n";
+
     float u, v, t;
     if (idx!=-1 && m_mesh->rayIntersect(idx, ray, u, v, t)) {
         /* An intersection was found! Can terminate
@@ -53,9 +55,9 @@ bool Accel::rayIntersect(const Ray3f &ray_, Intersection &its, bool shadowRay) c
         ray.maxt = its.t = t;
         its.uv = Point2f(u, v);
         its.mesh = m_mesh;
-        f = 1;
+        f = idx;
         foundIntersection = true;
-    }
+    }	
    
 
     if (foundIntersection) {
