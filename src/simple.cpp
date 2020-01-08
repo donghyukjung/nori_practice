@@ -13,14 +13,15 @@ public:
 	Color3f Li(const Scene *scene, Sampler *sampler, const Ray3f &ray) const {
 		/* Find the surface that is visible in the requested direction */
 		Intersection its;
-		Point3f x = its.p;
-		const Ray3f shadow = Ray3f(x, -(x - p));
-		if (!scene->rayIntersect(ray, its) || scene->rayIntersect(shadow))
-			return Color3f(0.0f);
+		if (!scene->rayIntersect(ray, its))	return Color3f(0.0f);
 		
+		Point3f x = its.p;
+		Ray3f shadow = Ray3f(x, p - x);
+		if (scene->rayIntersect(shadow)) return Color3f(0.0f);
+
 		return psi / (4 * pow(M_PI, 2))
 			*(std::max(0.0f, its.shFrame.n.dot(p - x) / (its.shFrame.n.norm() * (p - x).norm()))
-			/ (x - p).dot(x - p));
+				/ (x - p).dot(x - p));
 	}
 	
 	
