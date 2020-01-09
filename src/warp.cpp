@@ -71,11 +71,12 @@ float Warp::squareToUniformHemispherePdf(const Vector3f &v) {
 }
 
 Vector3f Warp::squareToCosineHemisphere(const Point2f &sample) {
-	return Vector3f(squareToUniformDisk(sample)[0], squareToUniformDisk(sample)[1], sqrt(1 - sample[0]));
+	Point2f proj = squareToUniformDisk(sample);
+	return Vector3f(proj[0], proj[1], sqrt(1 - sample[0]));
 }
 
 float Warp::squareToCosineHemispherePdf(const Vector3f &v) {
-	return (v[2] > 0) ? INV_TWOPI : 0;
+	return (v[2] > 0) ? v[2] * INV_PI : 0;
 }
 
 Vector3f Warp::squareToBeckmann(const Point2f &sample, float alpha) {
