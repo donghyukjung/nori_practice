@@ -23,6 +23,7 @@
 #include <nori/warp.h>
 #include <Eigen/Geometry>
 
+
 NORI_NAMESPACE_BEGIN
 
 Mesh::Mesh() { }
@@ -38,6 +39,7 @@ void Mesh::activate() {
         m_bsdf = static_cast<BSDF *>(
             NoriObjectFactory::createInstance("diffuse", PropertyList()));
     }
+	m_dpdf = DiscretePDF();
 }
 
 float Mesh::surfaceArea(uint32_t index) const {
