@@ -39,9 +39,36 @@ void Mesh::activate() {
         m_bsdf = static_cast<BSDF *>(
             NoriObjectFactory::createInstance("diffuse", PropertyList()));
     }
-	m_dpdf = DiscretePDF();
+	m_dpdf = DiscretePDF(getTriangleCount());
+	for (int i = 0;i < getTriangleCount();i++) {
+		m_dpdf.append(surfaceArea(i));
+		m_sum += surfaceArea(i);
+	}
+	m_dpdf.normalize();
 }
+float Mesh::samplePosition(const Point2f &sample, Point3f &p, Normal3f &n) const {
+	float x = 1 - sqrt(1 - sample[0]);
+	float y = sample[1] * sqrt(1 - sample[0]);
+	float z = 1 - x - y;
+	int idx = m_dpdf.sample(sample[0]);
 
+	Point3f p0 = m_V.col(m_F(0, idx));
+	Point3f p1 = m_V.col(m_F(1, idx));
+	Point3f p2 = m_V.col(m_F(2, idx));
+	p = p0 * x + p1 * y + p2 * z;
+	
+	if (m_N.size() > 0) { // if per-vertex normals exist
+		Normal3f n0 = m_N.col(m_F(0, idx));
+		Normal3f n1 = m_N.col(m_F(1, idx));
+		Normal3f n2 = m_N.col(m_F(2, idx));
+		n = n0 * x + n1 * y + n2 * z;
+	}
+	else {
+		n = (p1 - p0).cross(p2 - p0);
+	}
+	n.normalize();
+	return 1.0f / m_sum;
+}
 float Mesh::surfaceArea(uint32_t index) const {
     uint32_t i0 = m_F(0, index), i1 = m_F(1, index), i2 = m_F(2, index);
 

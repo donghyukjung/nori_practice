@@ -85,6 +85,12 @@ public:
 
     /// Return the total number of vertices in this hsape
     uint32_t getVertexCount() const { return (uint32_t) m_V.cols(); }
+	
+	/**
+	 * \brief Uniformly sample a position on the mesh with
+	 * respect to surface area. Returns both position and normal
+	 */
+	float samplePosition(const Point2f &sample, Point3f &p, Normal3f &n) const;
 
     /// Return the surface area of the given triangle
     float surfaceArea(uint32_t index) const;
@@ -178,6 +184,7 @@ protected:
     Emitter    *m_emitter = nullptr;     ///< Associated emitter, if any
     BoundingBox3f m_bbox;                ///< Bounding box of the mesh
 	DiscretePDF m_dpdf;
+	float m_sum;
 };
 
 NORI_NAMESPACE_END
