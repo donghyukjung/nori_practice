@@ -76,7 +76,7 @@ class Mesh : public NoriObject {
 public:
     /// Release all memory
     virtual ~Mesh();
-
+	
     /// Initialize internal data structures (called once by the XML parser)
     virtual void activate();
 

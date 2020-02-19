@@ -18,7 +18,8 @@
 
 #pragma once
 
-#include <nori/object.h>
+#include <nori/object.h>		
+#include <nori/mesh.h>
 
 NORI_NAMESPACE_BEGIN
 
@@ -27,7 +28,7 @@ NORI_NAMESPACE_BEGIN
  */
 class Emitter : public NoriObject {
 public:
-
+	virtual Color3f Sample_Le(const Scene *scene, Sampler *sampler, Point3f &x, Point3f &y, Normal3f &n_y, float &pdf) const = 0;
     /**
      * \brief Return the type of object (i.e. Mesh/Emitter/etc.) 
      * provided by this instance

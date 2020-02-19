@@ -38,9 +38,9 @@ void Mesh::activate() {
         /* If no material was assigned, instantiate a diffuse BRDF */
         m_bsdf = static_cast<BSDF *>(
             NoriObjectFactory::createInstance("diffuse", PropertyList()));
-    }
+    }	
 	m_dpdf = DiscretePDF(getTriangleCount());
-	for (int i = 0;i < getTriangleCount();i++) {
+	for (uint32_t i = 0;i < getTriangleCount();i++) {
 		m_dpdf.append(surfaceArea(i));
 		m_sum += surfaceArea(i);
 	}
@@ -50,11 +50,11 @@ float Mesh::samplePosition(const Point2f &sample, Point3f &p, Normal3f &n) const
 	float x = 1 - sqrt(1 - sample[0]);
 	float y = sample[1] * sqrt(1 - sample[0]);
 	float z = 1 - x - y;
-	int idx = m_dpdf.sample(sample[0]);
+	uint32_t idx = m_dpdf.sample(sample[0]);
 
 	Point3f p0 = m_V.col(m_F(0, idx));
 	Point3f p1 = m_V.col(m_F(1, idx));
-	Point3f p2 = m_V.col(m_F(2, idx));
+	Point3f p2 = m_V.col(m_F(2, idx));	
 	p = p0 * x + p1 * y + p2 * z;
 	
 	if (m_N.size() > 0) { // if per-vertex normals exist
