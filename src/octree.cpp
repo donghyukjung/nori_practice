@@ -2,7 +2,7 @@
 
 #include <nori/mesh.h>
 #include <nori/octree.h>
-
+#include <float.h>
 
 NORI_NAMESPACE_BEGIN
 

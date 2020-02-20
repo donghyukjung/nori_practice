@@ -48,7 +48,8 @@ public:
 		Normal3f n = Normal3f(0, 0, 1);
 		float cos_i = Frame::cosTheta(w_i);
 		if (cos_i < 0) {
-			cos_i *= -1;
+            n=-n;
+			cos_i =-cos_i;
 			std::swap(etaI, etaT);
 		}
 		
@@ -68,8 +69,6 @@ public:
 		
 			return Color3f(1.0f) / pow(etaI / etaT,2);
 		}
-		
-		return Color3f(fre);
     }
 
     std::string toString() const {
